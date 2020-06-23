@@ -26,7 +26,7 @@
 		1840B4DB24A140E5007F0E22 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1840B4DA24A140E5007F0E22 /* Protocols.swift */; };
 		1840B4DF24A28C58007F0E22 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1840B4DE24A28C58007F0E22 /* LoginVC.swift */; };
 		1840B4E324A28D59007F0E22 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1840B4E224A28D59007F0E22 /* SignUpVC.swift */; };
-		1840B4E524A295C8007F0E22 /* GoogleService-Info-4.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1840B4E424A295C8007F0E22 /* GoogleService-Info-4.plist */; };
+		1840B4E524A295C8007F0E22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1840B4E424A295C8007F0E22 /* GoogleService-Info.plist */; };
 		9E0C40E137ACFAE4FC0EAAAD /* Pods_Activation_ActivationUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F085684561D9D2E45F15E43 /* Pods_Activation_ActivationUITests.framework */; };
 		A83E0EB9A34D9886C155A4EA /* Pods_ActivationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF007C95FC51132414CC8A9 /* Pods_ActivationTests.framework */; };
 		E04F6118E87E1337FC204A9F /* Pods_Activation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E63961B78904F297A43A25B /* Pods_Activation.framework */; };
@@ -75,7 +75,7 @@
 		1840B4DA24A140E5007F0E22 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		1840B4DE24A28C58007F0E22 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		1840B4E224A28D59007F0E22 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
-		1840B4E424A295C8007F0E22 /* GoogleService-Info-4.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-4.plist"; sourceTree = "<group>"; };
+		1840B4E424A295C8007F0E22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		498226D2120AD426FEC6FA65 /* Pods-Activation-ActivationUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Activation-ActivationUITests.release.xcconfig"; path = "Target Support Files/Pods-Activation-ActivationUITests/Pods-Activation-ActivationUITests.release.xcconfig"; sourceTree = "<group>"; };
 		4F085684561D9D2E45F15E43 /* Pods_Activation_ActivationUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Activation_ActivationUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		56FB926442EF5CC4F062D459 /* Pods-Activation-ActivationUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Activation-ActivationUITests.debug.xcconfig"; path = "Target Support Files/Pods-Activation-ActivationUITests/Pods-Activation-ActivationUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -118,7 +118,7 @@
 		1840B48E249FE29C007F0E22 = {
 			isa = PBXGroup;
 			children = (
-				1840B4E424A295C8007F0E22 /* GoogleService-Info-4.plist */,
+				1840B4E424A295C8007F0E22 /* GoogleService-Info.plist */,
 				1840B499249FE29C007F0E22 /* Activation */,
 				1840B4B0249FE2A0007F0E22 /* ActivationTests */,
 				1840B4BB249FE2A0007F0E22 /* ActivationUITests */,
@@ -347,7 +347,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1840B4E524A295C8007F0E22 /* GoogleService-Info-4.plist in Resources */,
+				1840B4E524A295C8007F0E22 /* GoogleService-Info.plist in Resources */,
 				1840B4A7249FE29F007F0E22 /* LaunchScreen.storyboard in Resources */,
 				1840B4A4249FE29F007F0E22 /* Assets.xcassets in Resources */,
 				1840B4A2249FE29C007F0E22 /* Main.storyboard in Resources */,
