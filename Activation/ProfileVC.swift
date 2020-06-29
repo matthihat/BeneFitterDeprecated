@@ -7,24 +7,46 @@
 //
 
 import UIKit
+import Firebase
+import SVProgressHUD
 
 class ProfileVC: UIViewController {
+    
+//    MARK: - Properties
+    lazy var signOutButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(logOutUser))
+        button.tintColor = .black
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .red
+        view.backgroundColor = .mainYellow
         
         configureNavBar()
-        print("DEBUG added")
         
-    }
-    
-    deinit {
-        print("DEBUG deinit")
     }
     
     func configureNavBar() {
-//        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = signOutButton
+        self.prefersLargeNCTitles()
+
+    }
+    
+   @objc func logOutUser() {
+        do {
+            try Auth.auth().signOut()
+            DispatchQueue.main.async {
+                let nav = UINavigationController(rootViewController: LoginVC())
+                if #available(iOS 13.0, *) {
+                    nav.isModalInPresentation = true
+                }
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: false, completion: nil)
+            }
+        } catch {
+            SVProgressHUD.showError(withStatus: error.localizedDescription)
+        }
     }
 }

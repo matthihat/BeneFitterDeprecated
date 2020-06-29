@@ -12,10 +12,7 @@ import Firebase
 class MainCollectionView: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
 //    MARK: - Properties
-    lazy var addItemVC: AddItemVC = {
-        let vc = AddItemVC()
-        return vc
-    }()
+    lazy var addVC = AddVC()
 
 
 //  MARK: - Life cycle
@@ -44,7 +41,7 @@ class MainCollectionView: UICollectionViewController, UICollectionViewDelegateFl
     
 //    MARK: - Handlers
     @objc func handleAddPressed() {
-        present(addItemVC, animated: true, completion: nil)
+        present(addVC, animated: true, completion: nil)
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {

@@ -64,7 +64,7 @@ class LoginView: UIView {
         return button
     }()
     
-    var delegate: LoginDelegate?
+    weak var delegate: LoginDelegate?
     
 //    MARK: - Init
     override init(frame: CGRect) {
@@ -113,7 +113,7 @@ class LoginView: UIView {
 class LoginVC: UIViewController {
 //    MARK: - Properties
     let loginView = LoginView()
-    lazy var signUpVC = SignUpVC()
+    let signUpVC = SignUpVC()
     
 //    MARK: - Life cycle
     override func viewDidLoad() {
@@ -150,6 +150,17 @@ extension LoginVC: LoginDelegate {
             guard let email = emailTextField.text,
                 let password = passwordTextField.text
                 else { return }
+        
+        Auth.auth().signIn(withEmail: email, password: password) { (res, err) in
+            
+            if let error = err {
+                SVProgressHUD.dismiss()
+                SVProgressHUD.showError(withStatus: error.localizedDescription)
+                return
+            }
+            
+            group.leave()
+        }
             
             group.notify(queue: .main) {
                 SVProgressHUD.dismiss()

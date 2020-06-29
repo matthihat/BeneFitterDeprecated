@@ -11,6 +11,8 @@ import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    var window: UIWindow?
 
 //        Fix to make SVProgressHUD show up in center of screen adn avoid crash!
     static var standard: AppDelegate {

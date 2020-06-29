@@ -20,6 +20,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.makeKeyAndVisible()
             
             window?.rootViewController = createTabBar()
+            
+//        Fix to make SVProgressHUD show up in center of screen
+            guard let _ = (scene as? UIWindowScene) else { return }
+                  AppDelegate.standard.window = window
+            
         }
         
         
@@ -33,11 +38,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         func createProfileNC() -> UINavigationController {
             let profileVC = ProfileVC()
-            profileVC.title = "main profile"
+            profileVC.title = "Profile"
             profileVC.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 1)
             
             return UINavigationController(rootViewController: profileVC)
         }
+    
+    func createSearchUserNC() -> UINavigationController {
+        let searchUserVC = SearchUserTVC(style: .plain)
+        searchUserVC.title = "Search user"
+        searchUserVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 2)
+        
+        return UINavigationController(rootViewController: searchUserVC)
+    }
         
         func configureBarAppearanceGlobally() {
     //        sets tab bar background color
@@ -59,7 +72,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         func createTabBar() -> UITabBarController{
             let tabbar = UITabBarController()
-            tabbar.viewControllers = [createMainNC(), createProfileNC()]
+            tabbar.viewControllers = [createMainNC(), createProfileNC(), createSearchUserNC()]
             
             configureBarAppearanceGlobally()
             

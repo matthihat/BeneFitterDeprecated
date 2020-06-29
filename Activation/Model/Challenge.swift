@@ -83,5 +83,19 @@ struct ActiveChallenge: ActiveChallengeInterface {
     let startDate: Date
     let endDate: Date
     let duration: Duration
+    
+    
+}
+
+struct FinishedChallenge: ActiveChallengeInterface {
+    let challengeId: UUID
+    let challengeType: TypeOfChallenge
+    let initializedByUserWithUid: String
+    let acceptedByUserWithUid: String
+    let startDate: Date
+    let endDate: Date
+    let duration: Duration
+    
+    
 }
 

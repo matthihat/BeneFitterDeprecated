@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddItemVC: UIViewController {
+class AddVC: UIViewController {
     
     override func viewDidLoad() {
         view.backgroundColor = .systemYellow

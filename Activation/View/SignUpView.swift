@@ -75,7 +75,7 @@ class SignUpView: UIView {
         return button
     }()
     
-    var delegate: SignUpDelegate?
+    weak var delegate: SignUpDelegate?
     
 //    MARK: - Init
     override init(frame: CGRect) {
@@ -117,7 +117,7 @@ class SignUpView: UIView {
     
     @objc func handleSignUp() {
 
-        delegate?.handleSignUpPressed(for: self)
+        delegate?.handleSignUpPressed(signUpButton, fullnameTextField, emailTextField, passwordTextField)
     }
     
     @objc func handleShowLogin() {

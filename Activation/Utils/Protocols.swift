@@ -9,11 +9,12 @@
 import UIKit
 
 protocol SignUpDelegate: class {
-    func handleSignUpPressed(for view: SignUpView)
+    func handleSignUpPressed(_ signUpButton: UIButton, _ fullnameTextField: UITextField, _ emailTextField: UITextField, _ passwordTextField: UITextField)
+    
     func alreadyHaveAnAccountButton(_ button: UIButton)
 }
 
-protocol LoginDelegate {
+protocol LoginDelegate: class {
     func didPressLogin(_ emailTextField: UITextField, _ passwordTextField: UITextField)
     func didPressDontHaveAccountButton(_ button: UIButton)
 }
