@@ -8,6 +8,7 @@
 
 import UIKit
 import SVProgressHUD
+import Firebase
 
 class SearchUserTVC: UITableViewController {
     
@@ -37,6 +38,7 @@ class SearchUserDelegateAndDataSource: NSObject, UITableViewDelegate, UITableVie
     let tableView: UITableView
     let service = UserService.shared
     var users = [User]()
+    var currentUserUid: String?
     
     init(_ tableView: UITableView) {
         self.tableView = tableView
@@ -64,12 +66,18 @@ class SearchUserDelegateAndDataSource: NSObject, UITableViewDelegate, UITableVie
     
     func fetchUsers() {
         
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        
+        self.currentUserUid = currentUserUid
+        
         service.fetchUsers { (result) in
 
             switch result {
             case .success(let user):
-                self.users.append(user)
-                self.tableView.reloadData()
+                if currentUserUid != user.uid {
+                    self.users.append(user)
+                    self.tableView.reloadData()
+                }
             case .failure(let error):
                 SVProgressHUD.showError(withStatus: error.localizedDescription)
             }
