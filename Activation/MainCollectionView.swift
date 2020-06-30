@@ -12,7 +12,7 @@ import Firebase
 class MainCollectionView: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
 //    MARK: - Properties
-    lazy var addVC = AddChallengeVC()
+    lazy var addVC = NewChallengeVC()
 
 
 //  MARK: - Life cycle

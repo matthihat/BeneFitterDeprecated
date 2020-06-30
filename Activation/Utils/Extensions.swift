@@ -318,16 +318,11 @@ extension UIViewController: UITextFieldDelegate, UITextViewDelegate {
 extension UICollectionView {
     static func collectionView(with layout: UICollectionViewFlowLayout, with frame: CGRect) -> UICollectionView {
 
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .horizontal
-//        layout.minimumLineSpacing = 10
-//        layout.itemSize = CGSize(width: 120, height: 120)
-
-//        let frame = CGRect(x: 0, y: 0, width: 0, height: 220)
-        
         let collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
-        collectionView.alwaysBounceHorizontal = true
+        collectionView.alwaysBounceHorizontal = false
+        collectionView.alwaysBounceVertical = false
         collectionView.backgroundColor = .lightGray
+        
         return collectionView
     }
 }
