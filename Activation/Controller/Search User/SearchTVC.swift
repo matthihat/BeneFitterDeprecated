@@ -75,12 +75,18 @@ class SearchUserDelegateAndDataSource: NSObject, UITableViewDelegate, UITableVie
             switch result {
             case .success(let user):
                 if currentUserUid != user.uid {
-                    self.users.append(user)
-                    self.tableView.reloadData()
+                    self.updateTableView(with: user)
                 }
             case .failure(let error):
                 SVProgressHUD.showError(withStatus: error.localizedDescription)
             }
+        }
+    }
+    
+    func updateTableView(with user: User) {
+        if currentUserUid != user.uid {
+            self.users.append(user)
+            self.tableView.reloadData()
         }
     }
 }

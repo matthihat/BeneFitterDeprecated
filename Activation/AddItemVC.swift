@@ -8,7 +8,20 @@
 
 import UIKit
 
-class AddVC: UIViewController {
+class AddVChallengeView: UIView {
+    
+//    MARK: - Init
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class AddChallengeVC: UIViewController {
     
     override func viewDidLoad() {
         view.backgroundColor = .systemYellow

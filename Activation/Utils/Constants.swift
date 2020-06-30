@@ -11,6 +11,8 @@ import Firebase
 
 let REF = Database.database().reference()
 let REF_USERS = REF.child("users")
+let REF_CHALLENGES = REF.child("challenges")
+let REF_SELF_CHALLENGES = REF_CHALLENGES.child("self_challenges")
 
 enum NetworkError: LocalizedError {
     case invalidUserInfo
@@ -28,6 +30,17 @@ enum NetworkError: LocalizedError {
             return "Invalid data!"
         case .userNotLoggedIn:
             return "User is not logged in"
+        }
+    }
+}
+
+enum ChallengeError: LocalizedError {
+    case uploadError
+    
+    var errorDescription: String? {
+        switch self {
+        case .uploadError:
+            return "Error uploading challenge to server"
         }
     }
 }

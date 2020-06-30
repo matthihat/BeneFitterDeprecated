@@ -12,7 +12,7 @@ import Firebase
 class MainCollectionView: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
 //    MARK: - Properties
-    lazy var addVC = AddVC()
+    lazy var addVC = AddChallengeVC()
 
 
 //  MARK: - Life cycle
@@ -28,6 +28,7 @@ class MainCollectionView: UICollectionViewController, UICollectionViewDelegateFl
         collectionView.backgroundColor = .mainYellow
         
         checkIfUserIsLoggedIn()
+        
     }
     
 //    MARK: - Helper functions

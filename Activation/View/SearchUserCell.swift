@@ -31,32 +31,12 @@ class SearchUserCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
-        configureUI()
-        
         selectionStyle = .none
         
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configureUI() {
-        
-//        let profileImageDiameter: CGFloat = 48
-//
-//        addSubview(profileImageView)
-//
-//        profileImageView.anchor(left: contentView.leftAnchor,
-//                          paddingLeft: 8,
-//                          width: profileImageDiameter,
-//                          height: profileImageDiameter)
-//        profileImageView.layer.cornerRadius = profileImageDiameter/2
-//        profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-//
-//        textLabel?.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
-//
-//        selectionStyle = .none
     }
     
     override func layoutSubviews() {

@@ -11,15 +11,12 @@ import Foundation
 struct User {
     let uid: String
     let fullname: String
-//    let pendingChallenges: [PendingChallenge]?
-    let activeChallenges: [ActiveChallenge]?
-//    let finishedChallenges: [FinishedChallenge]?
+    let selfChallenges: [SelfChallenge]?
     
-    init(_ uid: String, _ fullname: String, _ activeChallenges: [ActiveChallenge]?) {
+    init(_ uid: String, _ fullname: String, _ selfChallenges: [SelfChallenge]?) {
         self.uid = uid
         self.fullname = fullname
-//        self.pendingChallenges = pendingChallenges
-        self.activeChallenges = activeChallenges
-//        self.finishedChallenges = finishedChallenges
+        self.selfChallenges = selfChallenges
+
     }
 }
