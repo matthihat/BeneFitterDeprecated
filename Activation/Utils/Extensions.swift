@@ -71,6 +71,16 @@ extension UIView {
         }
     }
     
+    func setHeight(to height: CGFloat) {
+        heightAnchor.constraint(equalToConstant: height).isActive = true
+        translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func setWidth(to width: CGFloat) {
+        widthAnchor.constraint(equalToConstant: width).isActive = true
+        translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     func centerX(inView: UIView) {
         centerXAnchor.constraint(equalTo: inView.centerXAnchor).isActive = true
         translatesAutoresizingMaskIntoConstraints = false
@@ -321,7 +331,7 @@ extension UICollectionView {
         let collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
         collectionView.alwaysBounceHorizontal = false
         collectionView.alwaysBounceVertical = false
-        collectionView.backgroundColor = .lightGray
+        collectionView.backgroundColor = .clear
         
         return collectionView
     }
@@ -338,6 +348,7 @@ extension UIColor {
     static let mainYellow = rgb(red: 255, green: 204, blue: 0)
     static let backgroundYellow = rgb(red: 253, green: 219, blue: 58)
     static let backgroundBlack = rgb(red: 25, green: 25, blue: 25)
+    static let itemWhite = rgb(red: 245, green: 245, blue: 245)
 }
 
 extension UILabel {

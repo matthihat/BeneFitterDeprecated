@@ -14,7 +14,6 @@ class NewChallengeView: UIView {
     let typeOfChallengeCV: UICollectionView
     
 //    MARK: - Init
-    
     init(typeOfChallengeCV: UICollectionView) {
         self.typeOfChallengeCV = typeOfChallengeCV
         super.init(frame: CGRect.zero)
@@ -85,7 +84,7 @@ class NewChallengeVC: UIViewController {
         typeOfChallengeCV.delegate = typeOfChallengeDelegateAndDataSource
         typeOfChallengeCV.dataSource = typeOfChallengeDelegateAndDataSource
         
-        typeOfChallengeCV.register(NewChallengeCell.self, forCellWithReuseIdentifier: NewChallengeCell.identifier)
+        typeOfChallengeCV.register(TopChallengeCell.self, forCellWithReuseIdentifier: TopChallengeCell.identifier)
     }
 }
 
@@ -103,7 +102,7 @@ class TypeOfChallengeDelegateAndDataSource: NSObject, UICollectionViewDelegate, 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewChallengeCell.identifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopChallengeCell.identifier, for: indexPath)
         
         return cell
     }

@@ -33,7 +33,8 @@
 		1840B4E724A7B1B9007F0E22 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1840B4E624A7B1B9007F0E22 /* Service.swift */; };
 		1840B4EA24A7B3BF007F0E22 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1840B4E924A7B3BF007F0E22 /* Constants.swift */; };
 		1843941224AA812F0062BC33 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1843941124AA812F0062BC33 /* CustomImageView.swift */; };
-		1843941424ABCE4A0062BC33 /* TypeOfChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1843941324ABCE4A0062BC33 /* TypeOfChallengeCell.swift */; };
+		1843941424ABCE4A0062BC33 /* TopChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1843941324ABCE4A0062BC33 /* TopChallengeCell.swift */; };
+		1843941824ACF6040062BC33 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1843941724ACF6040062BC33 /* MainVC.swift */; };
 		9E0C40E137ACFAE4FC0EAAAD /* Pods_Activation_ActivationUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F085684561D9D2E45F15E43 /* Pods_Activation_ActivationUITests.framework */; };
 		A83E0EB9A34D9886C155A4EA /* Pods_ActivationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF007C95FC51132414CC8A9 /* Pods_ActivationTests.framework */; };
 		E04F6118E87E1337FC204A9F /* Pods_Activation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E63961B78904F297A43A25B /* Pods_Activation.framework */; };
@@ -89,7 +90,8 @@
 		1840B4E624A7B1B9007F0E22 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		1840B4E924A7B3BF007F0E22 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1843941124AA812F0062BC33 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
-		1843941324ABCE4A0062BC33 /* TypeOfChallengeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeOfChallengeCell.swift; sourceTree = "<group>"; };
+		1843941324ABCE4A0062BC33 /* TopChallengeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopChallengeCell.swift; sourceTree = "<group>"; };
+		1843941724ACF6040062BC33 /* MainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		498226D2120AD426FEC6FA65 /* Pods-Activation-ActivationUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Activation-ActivationUITests.release.xcconfig"; path = "Target Support Files/Pods-Activation-ActivationUITests/Pods-Activation-ActivationUITests.release.xcconfig"; sourceTree = "<group>"; };
 		4F085684561D9D2E45F15E43 /* Pods_Activation_ActivationUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Activation_ActivationUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		56FB926442EF5CC4F062D459 /* Pods-Activation-ActivationUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Activation-ActivationUITests.debug.xcconfig"; path = "Target Support Files/Pods-Activation-ActivationUITests/Pods-Activation-ActivationUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 		1840B4DC24A28BD7007F0E22 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				1843941724ACF6040062BC33 /* MainVC.swift */,
 				183F866A24A8B93300489E2D /* Search User */,
 				1840B4DD24A28BE3007F0E22 /* Login */,
 			);
@@ -224,7 +227,7 @@
 				1840B4D824A140A6007F0E22 /* ConfirmButton.swift */,
 				1840B4D624A13FDE007F0E22 /* SignUpView.swift */,
 				183F866D24A8B9E900489E2D /* SearchUserCell.swift */,
-				1843941324ABCE4A0062BC33 /* TypeOfChallengeCell.swift */,
+				1843941324ABCE4A0062BC33 /* TopChallengeCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -551,7 +554,7 @@
 			files = (
 				1840B4E324A28D59007F0E22 /* SignUpVC.swift in Sources */,
 				1840B4CD249FE42A007F0E22 /* ProfileVC.swift in Sources */,
-				1843941424ABCE4A0062BC33 /* TypeOfChallengeCell.swift in Sources */,
+				1843941424ABCE4A0062BC33 /* TopChallengeCell.swift in Sources */,
 				1840B4E724A7B1B9007F0E22 /* Service.swift in Sources */,
 				1840B4D5249FE953007F0E22 /* Challenge.swift in Sources */,
 				1840B4D924A140A6007F0E22 /* ConfirmButton.swift in Sources */,
@@ -566,6 +569,7 @@
 				1840B4DF24A28C58007F0E22 /* LoginVC.swift in Sources */,
 				1840B4D1249FE603007F0E22 /* ItemCell.swift in Sources */,
 				183F866E24A8B9E900489E2D /* SearchUserCell.swift in Sources */,
+				1843941824ACF6040062BC33 /* MainVC.swift in Sources */,
 				1840B49B249FE29C007F0E22 /* AppDelegate.swift in Sources */,
 				183F866C24A8B94800489E2D /* SearchTVC.swift in Sources */,
 				1840B49D249FE29C007F0E22 /* SceneDelegate.swift in Sources */,

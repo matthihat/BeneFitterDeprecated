@@ -29,11 +29,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         
         func createMainNC() -> UINavigationController {
-            let mainCV = MainCollectionView(collectionViewLayout: UICollectionViewFlowLayout())
-            mainCV.title = "Main"
+            let mainVC = MainVC()
+            mainVC.title = "Main"
 //            mainCV.tabBarItem = UITabBarItem(title: "Items", image: #imageLiteral(resourceName: "baseline_category_black_36dp"), tag: 0)
             
-            return UINavigationController(rootViewController: mainCV)
+            return UINavigationController(rootViewController: mainVC)
         }
         
         func createProfileNC() -> UINavigationController {
