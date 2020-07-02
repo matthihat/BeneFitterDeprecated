@@ -364,7 +364,20 @@ extension NSMutableAttributedString {
         NSAttributedStrings.forEach { (attrString) in
             self.append(attrString)
         }
-        }
+    }
+    
+    static func withFont(_ font: UIFont, _ string: String) -> NSMutableAttributedString {
+        return NSMutableAttributedString(string: string, attributes: [NSAttributedString.Key.font : font])
+    }
+}
+
+extension NSAttributedString {
+    static func withFontAndColor(_ font: UIFont, _ string: String, color: UIColor) -> NSAttributedString {
+        
+        return NSAttributedString(string: string,
+                                  attributes: [NSAttributedString.Key.font : font,
+                                              NSAttributedString.Key.foregroundColor : color.cgColor])
+    }
 }
 
 extension UILabel {
