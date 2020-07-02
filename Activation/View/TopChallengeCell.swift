@@ -10,6 +10,20 @@ import UIKit
 
 class TopChallengeCell: UICollectionViewCell {
     
+    let challengeGoal = ChallengeGoal.mostCaloriesBurnt.topChallengeGoal
+    let challengeBet = ChallengeGoal.mostCaloriesBurnt
+    let duration = Duration.twentyFourHours
+    
+//    MARK: - TODO create database with top challenge, add functions to fetch top model from db. Create webpage with admin login for editing new top challenges
+    lazy var topChallenge = TopChallengeModel(image: #imageLiteral(resourceName: "HLF-logotyp"),
+                                             titleLabel: "Hjärt- & lungfonden",
+                                             textBody: "Aid the fight against heart and lung disease by joining this challenge",
+                                             typeOfChallenge: .mostCaloriesBurnt,
+                                             challengeGoal: challengeGoal,
+                                             duration: Duration.twentyFourHours,
+                                             bet: challengeBet)
+
+    
     override var isSelected: Bool {
         didSet {
 //            contentView.layer.borderColor = isSelected ? UIColor.blue.cgColor :  UIColor.clear.cgColor
@@ -25,7 +39,7 @@ class TopChallengeCell: UICollectionViewCell {
         view.backgroundColor = .backgroundBlack
         view.layer.borderWidth = 1
         view.layer.cornerRadius = cornerRadius
-        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowColor = UIColor.darkGray.cgColor
         view.layer.shadowOffset = CGSize(width: 2, height: 2)
         view.layer.shadowRadius = 2
         view.layer.shadowOpacity = 0.8
@@ -37,6 +51,31 @@ class TopChallengeCell: UICollectionViewCell {
         label.text = "Most popular"
         label.textColor = .white
         label.font = .boldSystemFont(ofSize: 22)
+        return label
+    }()
+    
+    private let textBody: UITextView = {
+        let txtView = UITextView()
+        txtView.text = "Loading"
+        txtView.textColor = .white
+        txtView.backgroundColor = .backgroundBlack
+        txtView.font = .boldSystemFont(ofSize: 12)
+        txtView.isUserInteractionEnabled = false
+        txtView.isScrollEnabled = false
+        return txtView
+    }()
+    
+    private let goalLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .boldSystemFont(ofSize: 16)
+        return label
+    }()
+    
+    private let betLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .boldSystemFont(ofSize: 16)
         return label
     }()
     
@@ -66,6 +105,8 @@ class TopChallengeCell: UICollectionViewCell {
         super.init(frame: frame)
         
         configureUI()
+        
+        configureLabels()
     }
     
     required init?(coder: NSCoder) {
@@ -83,7 +124,7 @@ class TopChallengeCell: UICollectionViewCell {
                              width: contentView.frame.width - 10, height: contentView.frame.height - 25)
         bgView.frame = bgFrame
         
-        bgView.addSubviews(popularLabel, imageView)
+        bgView.addSubviews(popularLabel, textBody, goalLabel, betLabel, imageView)
         popularLabel.centerX(inView: bgView)
         popularLabel.anchor(top: bgView.topAnchor,
                             paddingTop: 8)
@@ -95,8 +136,50 @@ class TopChallengeCell: UICollectionViewCell {
                          paddingRight: 8,
                          width: 120,
                          height: 120)
+        
+        textBody.anchor(top: popularLabel.bottomAnchor,
+                        left: bgView.leftAnchor,
+//                        bottom: bgView.bottomAnchor,
+                        right: self.centerXAnchor,
+                        paddingTop: 8,
+                        paddingLeft: 8,
+//                        paddingBottom: 8,
+                        paddingRight: 8)
+        
+        goalLabel.anchor(top: textBody.bottomAnchor,
+                         left: textBody.leftAnchor)
+        
+        betLabel.anchor(top: goalLabel.bottomAnchor,
+                        left: goalLabel.leftAnchor,
+                        paddingTop: 4)
 
         joinButton.centerX(inView: bgView)
         joinButton.centerYAnchor.constraint(equalTo: bgView.bottomAnchor).isActive = true
+    }
+    
+    func configureLabels() {
+        textBody.text = topChallenge.textBody
+        
+        let goalAndDurationText = NSMutableAttributedString(string: "Finish")
+        let goalText = NSAttributedString(string: String(topChallenge.challengeGoal),
+                                          attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemRed.cgColor])
+        let spacer = NSAttributedString(string: " ")
+        let units = NSAttributedString(string: ChallengeGoal.mostCaloriesBurnt.topChallengeDescription)
+        let inString = NSAttributedString(string: "in")
+        let duration = NSAttributedString(string: String(topChallenge.duration.durationInHours),
+                                          attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemRed.cgColor])
+        let hours = NSAttributedString(string: "h")
+        
+        let donateText = NSMutableAttributedString(string: "Donate ")
+        let bet = NSAttributedString(string: String(topChallenge.bet.topChallengeBet),
+                                     attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemYellow.cgColor])
+        let end = NSAttributedString(string: " kr if you succeed")
+        
+        goalAndDurationText.appendMultiple(NSAttributedStrings: spacer, goalText, spacer, units, spacer, inString, spacer, duration, spacer, hours)
+        goalLabel.attributedText = goalAndDurationText
+        
+        donateText.appendMultiple(NSAttributedStrings: bet, end)
+        betLabel.attributedText = donateText
+        
     }
 }

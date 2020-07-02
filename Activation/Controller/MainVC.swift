@@ -35,7 +35,7 @@ class TopChallengeView: UIView {
     func configureUI() {
         addSubviews(topChallengeCV)
         
-        topChallengeCV.anchor(top: safeAreaLayoutGuide.topAnchor, paddingTop: 4, width: 220, height: 250)
+        topChallengeCV.anchor(top: safeAreaLayoutGuide.topAnchor, paddingTop: 4, width: 320, height: 250)
         topChallengeCV.centerX(inView: self)
     }
     
@@ -135,7 +135,7 @@ class TopChallengeCVDelegateAndDataSource: NSObject, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: 220, height: 220)
+        return CGSize(width: 320, height: 220)
     }
     
 }

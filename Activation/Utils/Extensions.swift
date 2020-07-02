@@ -351,6 +351,22 @@ extension UIColor {
     static let itemWhite = rgb(red: 245, green: 245, blue: 245)
 }
 
+//extension NSAttributedString {
+//    func appendMultiple(_ firstNSMutableAttributedString: NSMutableAttributedString, followingNSAttributedStrings: NSAttributedString...) {
+//        followingNSAttributedStrings.forEach { (attrString) in
+//            firstNSMutableAttributedString.append(attrString)
+//        }
+//        }
+//}
+
+extension NSMutableAttributedString {
+    func appendMultiple(NSAttributedStrings: NSAttributedString...) {
+        NSAttributedStrings.forEach { (attrString) in
+            self.append(attrString)
+        }
+        }
+}
+
 extension UILabel {
     static func textLabel(titleLabel: String, ofFontSize: CGFloat) -> UILabel {
         let label = UILabel()

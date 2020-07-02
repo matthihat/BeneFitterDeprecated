@@ -8,6 +8,16 @@
 
 import UIKit
 
+protocol TopChallengeInterface {
+    var image: UIImage { get }
+    var titleLabel: String { get }
+    var textBody: String { get }
+    var typeOfChallenge: TypeOfChallenge { get }
+    var challengeGoal: Int { get }
+    var duration: Duration { get }
+    var bet: ChallengeGoal { get }
+}
+
 protocol SignUpDelegate: class {
     func handleSignUpPressed(_ signUpButton: UIButton, _ fullnameTextField: UITextField, _ emailTextField: UITextField, _ passwordTextField: UITextField)
     

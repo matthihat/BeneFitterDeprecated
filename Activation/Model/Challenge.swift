@@ -9,22 +9,6 @@
 import Foundation
 import Firebase
 
-enum TypeOfChallenge: String {
-    case mostCaloriesBurnt
-    case maxSteps
-}
-
-enum Duration {
-    case twentyFourHours
-    
-    var durationInSeconds: TimeInterval {
-        switch self {
-        case .twentyFourHours:
-            return 60*60*24
-        }
-    }
-}
-
 protocol SelfChallengeInterface {
     var challengeId: String { get }
     var challengeType: TypeOfChallenge { get }
@@ -172,7 +156,7 @@ struct SelfChallenge: SelfChallengeInterface {
 //    let startDate: Date
 //    let endDate: Date
 //    let duration: Duration
-//    
-//    
+//
+//
 //}
 
