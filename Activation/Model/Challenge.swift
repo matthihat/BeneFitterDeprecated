@@ -9,6 +9,44 @@
 import Foundation
 import Firebase
 
+protocol ChallengeInterface {
+    var challengeId: String { get }
+    
+    func selfChallenge(dict: [String : Any]) throws -> SelfChallenge
+    
+}
+
+struct Challenge: ChallengeInterface {
+    let challengeId: String
+    
+    func selfChallenge(dict: [String : Any]) throws -> SelfChallenge {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        
+        guard let bettingAmount = dict["betting_amount"] as? Int else { throw ChallengeError.invalidBet }
+            guard let challengeDescription = dict["challenge_type"] as? String else { throw ChallengeError.invalidChallengeType }
+            guard let challengeType = TypeOfChallenge.init(rawValue: challengeDescription) else { throw ChallengeError.invalidChallengeType }
+        guard let charityOrganization_String = dict["charity_organization"] as? String else { throw ChallengeError.invalidCharityOrganization }
+            guard let charityOrganization = CharityOrganization.init(rawValue: charityOrganization_String) else { throw ChallengeError.invalidCharityOrganization }
+            guard let duration_Int = dict["duration_seconds"] as? Int else { throw ChallengeError.invalidDuration }
+        let interval = TimeInterval.init(duration_Int)
+        guard let duration = Duration.init(rawValue: interval) else { throw ChallengeError.invalidDuration }
+            guard let startDate_String = dict["start_date"] as? String else { throw ChallengeError.invalidStartDate }
+            guard let startDate = dateFormatter.date(from: startDate_String) else { throw ChallengeError.invalidStartDate }
+            guard let isTopChallenge = dict["is_top_challenge"] as? Bool else { throw ChallengeError.invalidIsTopChallenge }
+        
+        let challenge = SelfChallenge(challengeId: challengeId,
+                                      challengeType: challengeType,
+                                      duration: duration,
+                                      startDate: startDate,
+                                      charityOrganization: charityOrganization,
+                                      isTopChallenge: isTopChallenge,
+                                      bettingAmount: bettingAmount)
+        return challenge
+    }
+}
+
 protocol SelfChallengeInterface {
     var challengeId: String { get }
     var challengeType: TypeOfChallenge { get }
@@ -20,38 +58,6 @@ protocol SelfChallengeInterface {
     
     func postChallenge(completion: @escaping (Result<Bool, Error>) -> Void)
     
-}
-
-struct Challenge {
-    var challengeId: String
-    
-    func selfChallenge(dict: [String : Any]) throws -> SelfChallenge {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
-        
-        guard
-            let bettingAmount = dict["betting_amount"] as? Int,
-            let challengeDescription = dict["challenge_type"] as? String,
-            let challengeType = TypeOfChallenge.init(rawValue: challengeDescription),
-            let charityOrganization_String = dict["charity_organization"] as? String,
-            let charityOrganization = CharityOrganization.init(rawValue: charityOrganization_String),
-            let duration_Int = dict["duration_seconds"] as? Int,
-            let duration = Duration.init(rawValue: Double(duration_Int)),
-            let startDate_String = dict["start_date"] as? String,
-            let startDate = dateFormatter.date(from: startDate_String),
-            let isTopChallenge = dict["is_top_challenge"] as? Bool
-            else { throw ChallengeError.invalidChallengeInfo }
-        
-        let challenge = SelfChallenge(challengeId: challengeId,
-                                      challengeType: challengeType,
-                                      duration: duration,
-                                      startDate: startDate,
-                                      charityOrganization: charityOrganization,
-                                      isTopChallenge: isTopChallenge,
-                                      bettingAmount: bettingAmount)
-        return challenge
-    }
 }
 
 struct SelfChallenge: SelfChallengeInterface {

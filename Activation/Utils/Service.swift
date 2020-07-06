@@ -86,11 +86,29 @@ struct ChallengeService {
     
     static let shared = ChallengeService()
     
-//    func fetchUsersActiveSelfChallenges(userUid: String, completion: @escaping(Result<SelfChallenge, Error>) -> Void) {
-//        
-//        REF_USERS.child(userUid).child("challenges").child("self_challenges").child("active_challenges").observeSingleEvent(of: .value) { (snapshot) in
-//            let challengeIds = snapshot.key
-//            print(challengeIds)
-//        }
-//    }
+    func fetchUsersActiveSelfChallenges(userUid: String, completion: @escaping(Result<SelfChallenge, Error>) -> Void) {
+
+            REF_USERS.child(userUid).child("challenges").child("self_challenges").child("active_challenges").observeSingleEvent(of: .value) { (snapshot) in
+            
+                guard let challengeIds = snapshot.value as? [String : Int]
+                else { completion(.failure(NetworkError.invalidData)); return }
+            
+            challengeIds.keys.forEach { (challengeId) in
+                REF_SELF_CHALLENGES.child(challengeId).observeSingleEvent(of: .value) { (challengeSnapshot) in
+                    
+                    guard let dict = challengeSnapshot.value as? [String : Any]
+                    else { completion(.failure(NetworkError.invalidData)); return }
+                    
+                    let challenge = Challenge(challengeId: challengeId)
+                    
+                    do {
+                        let selfChallenge = try challenge.selfChallenge(dict: dict)
+                        completion(.success(selfChallenge))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+    }
 }

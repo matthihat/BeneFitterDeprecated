@@ -30,14 +30,29 @@ enum NetworkError: LocalizedError {
 
 enum ChallengeError: LocalizedError {
     case uploadError
-    case invalidChallengeInfo
+    case invalidBet
+    case invalidChallengeType
+    case invalidCharityOrganization
+    case invalidDuration
+    case invalidStartDate
+    case invalidIsTopChallenge
     
     var errorDescription: String? {
         switch self {
         case .uploadError:
             return "Error uploading challenge to server"
-        case .invalidChallengeInfo:
-            return "Error fetching valid challenge information from database"
+        case .invalidChallengeType:
+            return "Error invalid challenge type"
+        case .invalidBet:
+            return "Error invalid bet"
+        case .invalidCharityOrganization:
+            return "Error invalid charity organization"
+        case .invalidDuration:
+            return "Error invalid duration"
+        case .invalidStartDate:
+            return "Error invalid start date"
+        case .invalidIsTopChallenge:
+            return "Error invalid top challenge description in database"
         }
     }
 }

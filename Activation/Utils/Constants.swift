@@ -89,12 +89,12 @@ enum ChallengeGoal {
 }
 
 enum Duration: TimeInterval {
-    case twentyFourHours
+    case twentyFourHours = 86400
     
     var durationInSeconds: TimeInterval {
         switch self {
         case .twentyFourHours:
-            return 60*60*24
+            return TimeInterval.init(86400)
         }
     }
     

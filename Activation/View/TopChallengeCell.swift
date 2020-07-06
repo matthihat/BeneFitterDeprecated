@@ -17,6 +17,7 @@ class TopChallengeCell: UICollectionViewCell {
     private let challengeBet = ChallengeGoal.mostCaloriesBurnt
     private let duration = Duration.twentyFourHours
     private let charityOrganization = CharityOrganization.hjartOchLungFonden
+    private var selfChallenges = [SelfChallenge]()
     var delegate: TopChallengeCellDelegate?
     
 //    MARK: - TODO create database with top challenge, add functions to fetch top model from db. Create webpage with admin login for editing new top challenges
@@ -232,19 +233,24 @@ class TopChallengeCell: UICollectionViewCell {
     
     private func checkIfUserAlreadyHasJoinedTopChallenge() {
         
-        var selfChallenges = [SelfChallenge]()
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
-        REF_USERS.child(currentUid).child("challenges").child("self_challenges").child("active_challenges").observeSingleEvent(of: .value) { (snapshot) in
+        ChallengeService.shared.fetchUsersActiveSelfChallenges(userUid: currentUid) { (result) in
             
-            guard let challengeIds = snapshot.value as? [String : Int] else { return }
-            
-            challengeIds.keys.forEach { (challengeId) in
-                REF_SELF_CHALLENGES.child(challengeId).observeSingleEvent(of: .value) { (challengeSnapshot) in
-                    
-                    guard let dict = challengeSnapshot.value as? [String : Any] else { return }
+            switch result {
+            case .success(let selfChallenge):
+                self.selfChallenges.append(selfChallenge)
+                self.selfChallenges.forEach { (challenge) in
+                    if challenge.isTopChallenge {
+                        print("DEBUG found")
+                        self.didJoinTopChallenge()
+                    }
+                }
+            case .failure(let error):
+                SVProgressHUD.showError(withStatus: error.localizedDescription)
+            }
+        }
+        
                     
 //                    MARK: - TODO Make a Challenge struct with a throwing function that accepts a Dictionary of type [String : Any] and returns a complete SelfChallenge to eliminate parsing through dictionay all the time creating an object
                     
@@ -269,12 +275,7 @@ class TopChallengeCell: UICollectionViewCell {
 //                                                  charityOrganization: charityOrganization,
 //                                                  isTopChallenge: isTopChallenge,
 //                                                  bettingAmount: bettingAmount)
-                    
                 
-                }
-            }
-            print("debug ", challengeIds)
-        }
         
 //        ChallengeService.shared.fetchUsersActiveSelfChallenges(userUid: currentUid) { (result) in
 //            switch result {
