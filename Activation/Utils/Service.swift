@@ -81,3 +81,16 @@ struct UserService {
         }
     }
 }
+
+struct ChallengeService {
+    
+    static let shared = ChallengeService()
+    
+//    func fetchUsersActiveSelfChallenges(userUid: String, completion: @escaping(Result<SelfChallenge, Error>) -> Void) {
+//        
+//        REF_USERS.child(userUid).child("challenges").child("self_challenges").child("active_challenges").observeSingleEvent(of: .value) { (snapshot) in
+//            let challengeIds = snapshot.key
+//            print(challengeIds)
+//        }
+//    }
+}

@@ -15,22 +15,50 @@ protocol SelfChallengeInterface {
     var duration: Duration { get }
     var startDate: Date { get}
     var endDate: Date { get}
+    var charityOrganization: CharityOrganization { get }
     var bettingAmount: Int { get }
     
     func postChallenge(completion: @escaping (Result<Bool, Error>) -> Void)
     
 }
 
-struct SelfChallenge: SelfChallengeInterface {
-    var challengeId: String {
-        return UUID().uuidString
-    }
+struct Challenge {
+    var challengeId: String
     
+    func selfChallenge(dict: [String : Any]) throws -> SelfChallenge {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        
+        guard
+            let bettingAmount = dict["betting_amount"] as? Int,
+            let challengeDescription = dict["challenge_type"] as? String,
+            let challengeType = TypeOfChallenge.init(rawValue: challengeDescription),
+            let charityOrganization_String = dict["charity_organization"] as? String,
+            let charityOrganization = CharityOrganization.init(rawValue: charityOrganization_String),
+            let duration_Int = dict["duration_seconds"] as? Int,
+            let duration = Duration.init(rawValue: Double(duration_Int)),
+            let startDate_String = dict["start_date"] as? String,
+            let startDate = dateFormatter.date(from: startDate_String),
+            let isTopChallenge = dict["is_top_challenge"] as? Bool
+            else { throw ChallengeError.invalidChallengeInfo }
+        
+        let challenge = SelfChallenge(challengeId: challengeId,
+                                      challengeType: challengeType,
+                                      duration: duration,
+                                      startDate: startDate,
+                                      charityOrganization: charityOrganization,
+                                      isTopChallenge: isTopChallenge,
+                                      bettingAmount: bettingAmount)
+        return challenge
+    }
+}
+
+struct SelfChallenge: SelfChallengeInterface {
+    var challengeId: String
     var challengeType: TypeOfChallenge
     var duration: Duration
-    var startDate: Date {
-        return Date()
-    }
+    var startDate: Date
     
     var endDate: Date {
         let newDate = startDate
@@ -38,29 +66,53 @@ struct SelfChallenge: SelfChallengeInterface {
         return endDate
     }
     
+    var charityOrganization: CharityOrganization
+    
+    var isTopChallenge: Bool
+    
     var bettingAmount: Int
     
     func postChallenge(completion: @escaping (Result<Bool, Error>) -> Void) {
         
-        let challengeType_String = challengeType.rawValue
-        let durationInSeconds = Int(duration.durationInSeconds)
-        let startDateString = startDate.description
-        let endDateString = endDate.description
+        let group = DispatchGroup()
+        
         guard let currentUserUid = Auth.auth().currentUser?.uid else {
             completion(.failure(ChallengeError.uploadError))
             return
         }
         
-        let uploadValues: [String:Any] =
-                            ["challenge_type" : challengeType_String,
-                            "duration_seconds" : durationInSeconds,
-                            "start_date" : startDateString,
-                            "end_date" : endDateString,
-                            "betting_amount" : bettingAmount
-                            ]
+        let challengeType_String = challengeType.rawValue
+        let durationInSeconds = Int(duration.durationInSeconds)
+        let startDateString = startDate.description
+        let endDateString = endDate.description
+        let charityOrganizationIdentifier = charityOrganization.id
+        let charityOrganizationName = charityOrganization.name
+        let charityOrganizationSwishNumber = charityOrganization.swishNumber
+        let charityOrganizationLogotypeImagePath = charityOrganization.logotypeImagePath
+        
+        let challengeUploadValues: [String:Any] =
+                                    [
+                                    "challenge_type" : challengeType_String,
+                                    "duration_seconds" : durationInSeconds,
+                                    "start_date" : startDateString,
+                                    "end_date" : endDateString,
+                                    "charity_organization" : charityOrganization.rawValue,
+                                    "betting_amount" : bettingAmount,
+                                    "is_top_challenge" : isTopChallenge
+                                    ]
+        
+        let charityOrganizationUploadValues: [String : Any] =
+                                            [
+                                            "organization_name" : charityOrganizationName,
+                                            "swish_number" : charityOrganizationSwishNumber,
+                                            "logotype_image_path" : charityOrganizationLogotypeImagePath
+                                            ]
+    
+        
+        group.enter()
         
 //        upload to challenge ref
-        REF_SELF_CHALLENGES.child(self.challengeId).updateChildValues(uploadValues) { (err, ref) in
+        REF_SELF_CHALLENGES.child(self.challengeId).updateChildValues(challengeUploadValues) { (err, ref) in
             
             if let error = err {
                 completion(.failure(error))
@@ -70,7 +122,30 @@ struct SelfChallenge: SelfChallengeInterface {
             let uploadValues2 = [self.challengeId:1]
             
 //            upload challenge id to user ref
-            REF_USERS.child(currentUserUid).child("challenges").child("self_challenges").updateChildValues(uploadValues2) { (err, ref) in
+            REF_USERS.child(currentUserUid).child("challenges").child("self_challenges").child("active_challenges").updateChildValues(uploadValues2) { (err, ref) in
+                
+                if let error = err {
+                    completion(.failure(error))
+                    return
+                }
+                
+                group.leave()
+                
+            }
+        }
+        
+//        upload charity organization info if there is none already in the db
+        group.notify(queue: .main) {
+            REF_CHARITY_ORGANIZATIONS.child(charityOrganizationIdentifier).child("organization_info").updateChildValues(charityOrganizationUploadValues) { (err, ref) in
+                
+                if let error = err {
+                    completion(.failure(error))
+                    return
+                }
+            }
+            
+//            upload challenge id to charity org's active challenge ref
+            REF_CHARITY_ORGANIZATIONS.child(charityOrganizationIdentifier).child("active_challenges").updateChildValues([self.challengeId : "1"]) { (err, ref) in
                 
                 if let error = err {
                     completion(.failure(error))

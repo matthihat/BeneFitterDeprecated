@@ -348,6 +348,8 @@ extension UIColor {
     static let mainYellow = rgb(red: 255, green: 204, blue: 0)
     static let backgroundYellow = rgb(red: 253, green: 219, blue: 58)
     static let backgroundBlack = rgb(red: 25, green: 25, blue: 25)
+    static let backgroundBlack2 = rgb(red: 30, green: 30, blue: 30)
+    static let backgroundBlack3 = rgb(red: 35, green: 35, blue: 35)
     static let itemWhite = rgb(red: 245, green: 245, blue: 245)
 }
 
@@ -372,6 +374,12 @@ extension NSMutableAttributedString {
 }
 
 extension NSAttributedString {
+    static func withFontAndText(_ font: UIFont, _ string: String) -> NSAttributedString {
+        
+        return NSAttributedString(string: string,
+                                  attributes: [NSAttributedString.Key.font : font])
+    }
+    
     static func withFontAndColor(_ font: UIFont, _ string: String, color: UIColor) -> NSAttributedString {
         
         return NSAttributedString(string: string,

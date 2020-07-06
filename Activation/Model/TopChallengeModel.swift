@@ -15,5 +15,8 @@ struct TopChallengeModel: TopChallengeInterface {
     let typeOfChallenge: TypeOfChallenge
     let challengeGoal: Int
     let duration: Duration
+    let charityOrganization: CharityOrganization
     let bet: ChallengeGoal
+    var userHasJoined: Bool
+    let isTopChallenge = true
 }

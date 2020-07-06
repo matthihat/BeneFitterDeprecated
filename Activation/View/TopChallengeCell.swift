@@ -7,22 +7,27 @@
 //
 
 import UIKit
+import Firebase
+import SVProgressHUD
 
 class TopChallengeCell: UICollectionViewCell {
     
-    let challengeGoal = ChallengeGoal.mostCaloriesBurnt.topChallengeGoal
-    let challengeBet = ChallengeGoal.mostCaloriesBurnt
-    let duration = Duration.twentyFourHours
+    private let challengeGoal = ChallengeGoal.mostCaloriesBurnt.topChallengeGoal
+//    MARK: - TODO Maybe hard code bet amount or other model for top pick
+    private let challengeBet = ChallengeGoal.mostCaloriesBurnt
+    private let duration = Duration.twentyFourHours
+    private let charityOrganization = CharityOrganization.hjartOchLungFonden
+    var delegate: TopChallengeCellDelegate?
     
 //    MARK: - TODO create database with top challenge, add functions to fetch top model from db. Create webpage with admin login for editing new top challenges
-    lazy var topChallenge = TopChallengeModel(image: #imageLiteral(resourceName: "HLF-logotyp"),
+    private lazy var topChallenge = TopChallengeModel(image: #imageLiteral(resourceName: "HLF-logotyp"),
                                              titleLabel: "Hjärt- & lungfonden",
                                              textBody: "Aid the fight against heart and lung disease by joining this challenge",
                                              typeOfChallenge: .mostCaloriesBurnt,
                                              challengeGoal: challengeGoal,
                                              duration: Duration.twentyFourHours,
-                                             bet: challengeBet)
-
+                                             charityOrganization: charityOrganization,
+                                             bet: challengeBet, userHasJoined: false)
     
     override var isSelected: Bool {
         didSet {
@@ -32,11 +37,11 @@ class TopChallengeCell: UICollectionViewCell {
     
 //    MARK: - Properties
     static let identifier = "Identifier"
-    let cornerRadius: CGFloat = 12
+    private let cornerRadius: CGFloat = 12
     
     private lazy var bgView: UIView = {
         let view = UIView()
-        view.backgroundColor = .backgroundBlack
+//        view.backgroundColor = .backgroundBlack
         view.layer.borderWidth = 1
         view.layer.cornerRadius = cornerRadius
         view.layer.shadowColor = UIColor.darkGray.cgColor
@@ -59,7 +64,7 @@ class TopChallengeCell: UICollectionViewCell {
         let txtView = UITextView()
         txtView.text = "Loading"
         txtView.textColor = .white
-        txtView.backgroundColor = .backgroundBlack
+        txtView.backgroundColor = .clear
 //        txtView.font = .boldSystemFont(ofSize: 12)
         txtView.font = UIFont.preferredFont(forTextStyle: .caption1)
         txtView.textAlignment = .center
@@ -92,17 +97,21 @@ class TopChallengeCell: UICollectionViewCell {
     }()
     
     
-    private let joinButton: UIButton = {
+    lazy var joinButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Join", for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
         button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .systemRed
         button.layer.cornerRadius = 20
         button.setHeight(to: 40)
-        button.setWidth(to: 100)
+        button.setWidth(to: 140)
+        button.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)
         return button
     }()
+    
+    let gradientLayer = CAGradientLayer()
     
 //    MARK: - Init
     override init(frame: CGRect) {
@@ -110,7 +119,11 @@ class TopChallengeCell: UICollectionViewCell {
         
         configureUI()
         
+        checkIfUserAlreadyHasJoinedTopChallenge()
+        
         configureLabels()
+        
+        createGradientLayer()
     }
     
     required init?(coder: NSCoder) {
@@ -128,6 +141,7 @@ class TopChallengeCell: UICollectionViewCell {
                              y: 5,
                              width: contentView.frame.width - 10,
                              height: contentView.frame.height - 25)
+        bgView.layer.cornerRadius = cornerRadius
         bgView.frame = bgFrame
         
         bgView.addSubviews(popularLabel,
@@ -142,7 +156,6 @@ class TopChallengeCell: UICollectionViewCell {
         
         imageView.anchor(
             top: popularLabel.bottomAnchor,
-//                         left: bgView.leftAnchor,
 ////                         MARK: - TODO Scale image instead of neg. padding top and big height
                          paddingTop: -10,
 //                         paddingLeft: 8,
@@ -169,32 +182,121 @@ class TopChallengeCell: UICollectionViewCell {
         joinButton.centerYAnchor.constraint(equalTo: bgView.bottomAnchor).isActive = true
     }
     
+//    MARK: - TODO create get set method when top challenge is available in database
     private func configureLabels() {
         textBody.text = topChallenge.textBody
         
         let font = UIFont.preferredFont(forTextStyle: .body)
-        
-        let goalAndDurationText = NSMutableAttributedString.withFont(font, "Finish")
-        
-        let goalText = NSAttributedString.withFontAndColor(font, String(topChallenge.challengeGoal), color: .systemRed)
-        
+        let highLightColor = UIColor.systemRed
+        let goalAndDurationText = NSMutableAttributedString.withFont(font, "Burn")
+        let goalText = NSAttributedString.withFontAndColor(font, String(topChallenge.challengeGoal), color: highLightColor)
         let spacer = NSAttributedString(string: " ")
-        let units = NSAttributedString(string: ChallengeGoal.mostCaloriesBurnt.topChallengeDescription)
-        let inString = NSAttributedString(string: "in")
-        let duration = NSAttributedString(string: String(topChallenge.duration.durationInHours),
-                                          attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemRed.cgColor])
-        let hours = NSAttributedString(string: "h")
-        
-        let donateText = NSMutableAttributedString(string: "Donate ")
-        let bet = NSAttributedString(string: String(topChallenge.bet.topChallengeBet),
-                                     attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemYellow.cgColor])
-        let end = NSAttributedString(string: " kr if you succeed")
-        
+        let units = NSAttributedString.withFontAndText(font, ChallengeGoal.mostCaloriesBurnt.topChallengeDescription)
+        let inString = NSAttributedString.withFontAndText(font, "in")
+        let duration = NSAttributedString.withFontAndColor(font, String(topChallenge.duration.durationInHours), color: highLightColor)
+        let hours = NSAttributedString.withFontAndText(font, "h")
+        let donateText = NSMutableAttributedString.withFont(font, "Donate ")
+        let bet = NSAttributedString.withFontAndColor(font, String(topChallenge.bet.topChallengeBet), color: .systemYellow)
+        let end = NSAttributedString.withFontAndText(font, " kr if you succeed")
+
         goalAndDurationText.appendMultiple(NSAttributedStrings: spacer, goalText, spacer, units, spacer, inString, spacer, duration, spacer, hours)
         goalLabel.attributedText = goalAndDurationText
         
         donateText.appendMultiple(NSAttributedStrings: bet, end)
         betLabel.attributedText = donateText
+    }
+    
+    private func createGradientLayer() {
+        gradientLayer.frame = bgView.bounds
+        gradientLayer.cornerRadius = cornerRadius
+        gradientLayer.colors = [UIColor.backgroundBlack.cgColor,
+                                UIColor.backgroundBlack2.cgColor,
+                                UIColor.darkGray.cgColor]
+        gradientLayer.locations = [0.4, 0.5, 0.9]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        gradientLayer.shadowColor = UIColor.darkGray.cgColor
+        gradientLayer.shadowOffset = CGSize(width: 2, height: 2)
+        gradientLayer.shadowRadius = 2
+        gradientLayer.shadowOpacity = 0.8
         
+        bgView.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
+    public func didJoinTopChallenge() {
+        topChallenge.userHasJoined = true
+        joinButton.isEnabled = false
+        joinButton.setTitle("Joined ✓", for: .normal)
+        joinButton.backgroundColor = .systemGreen
+    }
+    
+    private func checkIfUserAlreadyHasJoinedTopChallenge() {
+        
+        var selfChallenges = [SelfChallenge]()
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        REF_USERS.child(currentUid).child("challenges").child("self_challenges").child("active_challenges").observeSingleEvent(of: .value) { (snapshot) in
+            
+            guard let challengeIds = snapshot.value as? [String : Int] else { return }
+            
+            challengeIds.keys.forEach { (challengeId) in
+                REF_SELF_CHALLENGES.child(challengeId).observeSingleEvent(of: .value) { (challengeSnapshot) in
+                    
+                    guard let dict = challengeSnapshot.value as? [String : Any] else { return }
+                    
+//                    MARK: - TODO Make a Challenge struct with a throwing function that accepts a Dictionary of type [String : Any] and returns a complete SelfChallenge to eliminate parsing through dictionay all the time creating an object
+                    
+//                    guard
+//                        let bettingAmount = dict["betting_amount"] as? Int,
+//                        let challengeDescription = dict["challenge_type"] as? String,
+//                        let challengeType = TypeOfChallenge.init(rawValue: challengeDescription),
+//                        let charityOrganization_String = dict["charity_organization"] as? String,
+//                        let charityOrganization = CharityOrganization.init(rawValue: charityOrganization_String),
+//                        let duration_Int = dict["duration_seconds"] as? Int,
+//                        let duration = Duration.init(rawValue: Double(duration_Int)),
+//                        let startDate_String = dict["start_date"] as? String,
+//                        let startDate = dateFormatter.date(from: startDate_String),
+//                        let endDate_String = dict["end_date"] as? String,
+//                        let endDate = dateFormatter.date(from: endDate_String),
+//                        let isTopChallenge = dict["is_top_challenge"] as? Bool
+//                    else { return }
+//
+//                    let challenge = SelfChallenge(challengeId: challengeId,
+//                                                  challengeType: challengeType,
+//                                                  duration: duration, startDate: startDate,
+//                                                  charityOrganization: charityOrganization,
+//                                                  isTopChallenge: isTopChallenge,
+//                                                  bettingAmount: bettingAmount)
+                    
+                
+                }
+            }
+            print("debug ", challengeIds)
+        }
+        
+//        ChallengeService.shared.fetchUsersActiveSelfChallenges(userUid: currentUid) { (result) in
+//            switch result {
+//            case .success(let selfChallenge):
+//                selfChallenges.append(selfChallenge)
+//                selfChallenges.forEach { (challenge) in
+//                    if challenge.isTopChallenge {
+//                        self.didJoinTopChallenge()
+//                    }
+//                }
+//
+//            case .failure(let error):
+//                SVProgressHUD.showError(withStatus: error.localizedDescription)
+//            }
+//        }
+        
+//        MARK: - Do API stuff to check if is in top challenge = true exists in uaers active challenges
+    }
+    
+//    MARK: - Handlers
+    @objc func didPressJoinButton() {
+        joinButton.isEnabled = false
+        delegate?.didPressJoinChallenge(in: self, selected: topChallenge)
     }
 }

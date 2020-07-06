@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import SVProgressHUD
 
 class TopChallengeView: UIView {
     
@@ -51,7 +52,6 @@ class MainVC: UIViewController {
 //        layout.itemSize = CGSize(width: 120, height: 120)
         
         return layout
-        //        let frame = CGRect(x: 0, y: 0, width: 0, height: 220)
     }()
     
     let frame: CGRect = {
@@ -128,7 +128,8 @@ class TopChallengeCVDelegateAndDataSource: NSObject, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopChallengeCell.identifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopChallengeCell.identifier, for: indexPath) as! TopChallengeCell
+        cell.delegate = self
         
         return cell
     }
@@ -137,5 +138,32 @@ class TopChallengeCVDelegateAndDataSource: NSObject, UICollectionViewDelegate, U
         
         return CGSize(width: 320, height: 220)
     }
+}
+
+extension TopChallengeCVDelegateAndDataSource: TopChallengeCellDelegate {
+    func didPressJoinChallenge(in cell: TopChallengeCell, selected challenge: TopChallengeModel) {
+        
+        let challengeId = UUID().uuidString
+        let startDate = Date()
+        
+        let challenge = SelfChallenge(challengeId: challengeId,
+                                      challengeType: challenge.typeOfChallenge,
+                                      duration: challenge.duration,
+                                      startDate: startDate,
+                                      charityOrganization: challenge.charityOrganization,
+                                      isTopChallenge: challenge.isTopChallenge,
+                                      bettingAmount: challenge.bet.topChallengeBet)
+        
+        challenge.postChallenge { (result) in
+            switch result {
+            case .success(_):
+                cell.didJoinTopChallenge()
+            case .failure(let error):
+                SVProgressHUD.showError(withStatus: error.localizedDescription)
+                cell.joinButton.isEnabled = true
+            }
+        }
+    }
+    
     
 }

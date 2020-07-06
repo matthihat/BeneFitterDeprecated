@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		183F71FC24B3ADB0006460C8 /* ValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183F71FB24B3ADB0006460C8 /* ValidationService.swift */; };
+		183F71FE24B3B098006460C8 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183F71FD24B3B098006460C8 /* Errors.swift */; };
 		183F866C24A8B94800489E2D /* SearchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183F866B24A8B94800489E2D /* SearchTVC.swift */; };
 		183F866E24A8B9E900489E2D /* SearchUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183F866D24A8B9E900489E2D /* SearchUserCell.swift */; };
 		183F867024A8C0CE00489E2D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183F866F24A8C0CE00489E2D /* User.swift */; };
@@ -59,6 +61,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		183F71FB24B3ADB0006460C8 /* ValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationService.swift; sourceTree = "<group>"; };
+		183F71FD24B3B098006460C8 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		183F866B24A8B94800489E2D /* SearchTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTVC.swift; sourceTree = "<group>"; };
 		183F866D24A8B9E900489E2D /* SearchUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserCell.swift; sourceTree = "<group>"; };
 		183F866F24A8C0CE00489E2D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -144,6 +148,8 @@
 		1840B48E249FE29C007F0E22 = {
 			isa = PBXGroup;
 			children = (
+				183F71FB24B3ADB0006460C8 /* ValidationService.swift */,
+				183F71FD24B3B098006460C8 /* Errors.swift */,
 				1840B4E424A295C8007F0E22 /* GoogleService-Info.plist */,
 				1840B499249FE29C007F0E22 /* Activation */,
 				1840B4B0249FE2A0007F0E22 /* ActivationTests */,
@@ -569,7 +575,9 @@
 				1843941224AA812F0062BC33 /* CustomImageView.swift in Sources */,
 				1840B4D3249FE631007F0E22 /* AddItemVC.swift in Sources */,
 				1840B4CB249FE3D6007F0E22 /* MainCollectionView.swift in Sources */,
+				183F71FC24B3ADB0006460C8 /* ValidationService.swift in Sources */,
 				1840B4D724A13FDE007F0E22 /* SignUpView.swift in Sources */,
+				183F71FE24B3B098006460C8 /* Errors.swift in Sources */,
 				1840B4DF24A28C58007F0E22 /* LoginVC.swift in Sources */,
 				1840B4D1249FE603007F0E22 /* ItemCell.swift in Sources */,
 				183F866E24A8B9E900489E2D /* SearchUserCell.swift in Sources */,

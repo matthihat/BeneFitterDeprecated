@@ -15,6 +15,7 @@ protocol TopChallengeInterface {
     var typeOfChallenge: TypeOfChallenge { get }
     var challengeGoal: Int { get }
     var duration: Duration { get }
+    var charityOrganization: CharityOrganization { get }
     var bet: ChallengeGoal { get }
 }
 
@@ -27,4 +28,8 @@ protocol SignUpDelegate: class {
 protocol LoginDelegate: class {
     func didPressLogin(_ emailTextField: UITextField, _ passwordTextField: UITextField)
     func didPressDontHaveAccountButton(_ button: UIButton)
+}
+
+protocol TopChallengeCellDelegate {
+    func didPressJoinChallenge(in cell: TopChallengeCell, selected challenge: TopChallengeModel)
 }

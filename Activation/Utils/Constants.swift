@@ -13,10 +13,47 @@ let REF = Database.database().reference()
 let REF_USERS = REF.child("users")
 let REF_CHALLENGES = REF.child("challenges")
 let REF_SELF_CHALLENGES = REF_CHALLENGES.child("self_challenges")
+let REF_CHARITY_ORGANIZATIONS = REF.child("charity_organizations")
+let TOP_CHALLENGE_IDENTIFIER = 1
+//let REF_CHARITY_ORGANIZATIONS_ACTIVE_CHALLENGES = REF_CHARITY_ORGANIZATIONS.child("active_challenges")
+
+//let DB = Storage.storage().re
 
 enum TypeOfChallenge: String {
     case mostCaloriesBurnt
     case maxSteps
+}
+
+enum CharityOrganization: String {
+    case hjartOchLungFonden
+    
+    var name: String {
+        switch self {
+        case .hjartOchLungFonden:
+            return "Hjärt- & Lungfonden"
+        }
+    }
+    
+    var id: String {
+        switch self {
+        case .hjartOchLungFonden:
+            return "1"
+        }
+    }
+    
+    var swishNumber: Int {
+        switch self {
+        case .hjartOchLungFonden:
+            return 9091927
+        }
+    }
+    
+    var logotypeImagePath: String {
+        switch self {
+        case .hjartOchLungFonden:
+            return "gs://benefitter-76af5.appspot.com/charity_organizations/logotypes/1/HLF-logotyp.png"
+        }
+    }
 }
 
 enum ChallengeGoal {
@@ -51,7 +88,7 @@ enum ChallengeGoal {
     }
 }
 
-enum Duration {
+enum Duration: TimeInterval {
     case twentyFourHours
     
     var durationInSeconds: TimeInterval {
@@ -65,37 +102,6 @@ enum Duration {
         switch self {
         case .twentyFourHours:
             return 24
-        }
-    }
-}
-
-enum NetworkError: LocalizedError {
-    case invalidUserInfo
-    case errorCreatingUser
-    case invalidData
-    case userNotLoggedIn
-    
-    var errorDescription: String? {
-        switch self {
-        case .invalidUserInfo:
-            return "Invalid user info provided, check that you have provided all necessary info"
-        case .errorCreatingUser:
-            return "Error creating user in database"
-        case .invalidData:
-            return "Invalid data!"
-        case .userNotLoggedIn:
-            return "User is not logged in"
-        }
-    }
-}
-
-enum ChallengeError: LocalizedError {
-    case uploadError
-    
-    var errorDescription: String? {
-        switch self {
-        case .uploadError:
-            return "Error uploading challenge to server"
         }
     }
 }
