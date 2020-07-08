@@ -17,7 +17,7 @@ class TopChallengeCell: UICollectionViewCell {
     private let challengeBet = ChallengeGoal.mostCaloriesBurnt
     private let duration = Duration.twentyFourHours
     private let charityOrganization = CharityOrganization.hjartOchLungFonden
-    private var selfChallenges = [SelfChallenge]()
+//    private var selfChallenges = [SelfChallenge]()
     var delegate: TopChallengeCellDelegate?
     
 //    MARK: - TODO create database with top challenge, add functions to fetch top model from db. Create webpage with admin login for editing new top challenges
@@ -239,60 +239,14 @@ class TopChallengeCell: UICollectionViewCell {
             
             switch result {
             case .success(let selfChallenge):
-                self.selfChallenges.append(selfChallenge)
-                self.selfChallenges.forEach { (challenge) in
-                    if challenge.isTopChallenge {
-                        print("DEBUG found")
-                        self.didJoinTopChallenge()
-                    }
+                if selfChallenge.isTopChallenge {
+                    self.didJoinTopChallenge()
                 }
+  
             case .failure(let error):
                 SVProgressHUD.showError(withStatus: error.localizedDescription)
             }
         }
-        
-                    
-//                    MARK: - TODO Make a Challenge struct with a throwing function that accepts a Dictionary of type [String : Any] and returns a complete SelfChallenge to eliminate parsing through dictionay all the time creating an object
-                    
-//                    guard
-//                        let bettingAmount = dict["betting_amount"] as? Int,
-//                        let challengeDescription = dict["challenge_type"] as? String,
-//                        let challengeType = TypeOfChallenge.init(rawValue: challengeDescription),
-//                        let charityOrganization_String = dict["charity_organization"] as? String,
-//                        let charityOrganization = CharityOrganization.init(rawValue: charityOrganization_String),
-//                        let duration_Int = dict["duration_seconds"] as? Int,
-//                        let duration = Duration.init(rawValue: Double(duration_Int)),
-//                        let startDate_String = dict["start_date"] as? String,
-//                        let startDate = dateFormatter.date(from: startDate_String),
-//                        let endDate_String = dict["end_date"] as? String,
-//                        let endDate = dateFormatter.date(from: endDate_String),
-//                        let isTopChallenge = dict["is_top_challenge"] as? Bool
-//                    else { return }
-//
-//                    let challenge = SelfChallenge(challengeId: challengeId,
-//                                                  challengeType: challengeType,
-//                                                  duration: duration, startDate: startDate,
-//                                                  charityOrganization: charityOrganization,
-//                                                  isTopChallenge: isTopChallenge,
-//                                                  bettingAmount: bettingAmount)
-                
-        
-//        ChallengeService.shared.fetchUsersActiveSelfChallenges(userUid: currentUid) { (result) in
-//            switch result {
-//            case .success(let selfChallenge):
-//                selfChallenges.append(selfChallenge)
-//                selfChallenges.forEach { (challenge) in
-//                    if challenge.isTopChallenge {
-//                        self.didJoinTopChallenge()
-//                    }
-//                }
-//
-//            case .failure(let error):
-//                SVProgressHUD.showError(withStatus: error.localizedDescription)
-//            }
-//        }
-        
-//        MARK: - Do API stuff to check if is in top challenge = true exists in uaers active challenges
     }
     
 //    MARK: - Handlers

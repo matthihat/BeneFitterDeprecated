@@ -1,15 +1,15 @@
 //
-//  ActivationTests.swift
-//  ActivationTests
+//  Challenge_Tests.swift
+//  Activation
 //
-//  Created by Mattias Törnqvist on 2020-06-21.
+//  Created by Mattias Törnqvist on 2020-07-08.
 //  Copyright © 2020 Mattias Törnqvist. All rights reserved.
 //
 
 import XCTest
-//@testable import Activation
+@testable import 
 
-class ActivationTests: XCTestCase {
+class Challenge_Tests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

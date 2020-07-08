@@ -25,16 +25,24 @@ struct Challenge: ChallengeInterface {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         
         guard let bettingAmount = dict["betting_amount"] as? Int else { throw ChallengeError.invalidBet }
-            guard let challengeDescription = dict["challenge_type"] as? String else { throw ChallengeError.invalidChallengeType }
-            guard let challengeType = TypeOfChallenge.init(rawValue: challengeDescription) else { throw ChallengeError.invalidChallengeType }
+        
+        guard let challengeDescription = dict["challenge_type"] as? String else { throw ChallengeError.invalidChallengeType }
+        
+        guard let challengeType = TypeOfChallenge.init(rawValue: challengeDescription) else { throw ChallengeError.invalidChallengeType }
+        
         guard let charityOrganization_String = dict["charity_organization"] as? String else { throw ChallengeError.invalidCharityOrganization }
-            guard let charityOrganization = CharityOrganization.init(rawValue: charityOrganization_String) else { throw ChallengeError.invalidCharityOrganization }
-            guard let duration_Int = dict["duration_seconds"] as? Int else { throw ChallengeError.invalidDuration }
-        let interval = TimeInterval.init(duration_Int)
-        guard let duration = Duration.init(rawValue: interval) else { throw ChallengeError.invalidDuration }
-            guard let startDate_String = dict["start_date"] as? String else { throw ChallengeError.invalidStartDate }
-            guard let startDate = dateFormatter.date(from: startDate_String) else { throw ChallengeError.invalidStartDate }
-            guard let isTopChallenge = dict["is_top_challenge"] as? Bool else { throw ChallengeError.invalidIsTopChallenge }
+     
+        guard let charityOrganization = CharityOrganization.init(rawValue: charityOrganization_String) else { throw ChallengeError.invalidCharityOrganization }
+    
+        guard let duration_Double = dict["duration_seconds"] as? Double else { throw ChallengeError.invalidDuration }
+        
+        guard let duration = Duration.init(rawValue: duration_Double) else { throw ChallengeError.invalidDuration }
+        
+        guard let startDate_String = dict["start_date"] as? String else { throw ChallengeError.invalidStartDate }
+        
+        guard let startDate = dateFormatter.date(from: startDate_String) else { throw ChallengeError.invalidStartDate }
+            
+        guard let isTopChallenge = dict["is_top_challenge"] as? Bool else { throw ChallengeError.invalidIsTopChallenge }
         
         let challenge = SelfChallenge(challengeId: challengeId,
                                       challengeType: challengeType,
